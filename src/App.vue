@@ -1,13 +1,6 @@
 <template>
   <div id="app">
-    <header id="header">
-      <div id="title-area">
-        Onboarding Tasks
-      </div>
-      <nav id="nav-area">
-        <button id="add-task-btn" @click="isOpen = !isOpen">Add Task</button>
-      </nav>
-    </header>
+    <AppHeader @open-add-form="isOpen = !isOpen" />
     <AddTasks v-if="isOpen" @add-new-task="addTask" @close-form="isOpen = !isOpen" />
     <div id="active-task-area">
       <ShowTask :tasks="itTasks(false)" @checkbox-changed="onCheckboxChanged" @edit-task="editTask" title="IT" />
@@ -27,6 +20,7 @@
 <script>
 import AddTasks from './components/AddTasks.vue';
 import ShowTask from './components/ShowTask.vue';
+import AppHeader from './components/AppHeader.vue';
 export default {
   name: 'App',
   data(){
@@ -37,7 +31,8 @@ export default {
   },
   components: {
     AddTasks,
-    ShowTask
+    ShowTask,
+    AppHeader
   },
   methods: {
     async addTask(task){
@@ -146,12 +141,8 @@ export default {
       this.tasksList = this.tasksList.filter((task) => task.id !== id);
     }
   },
-  computed: {
-    
-  },
   async created(){
     const res = await fetch("http://localhost:5000/tasks");
-
       const data = await res.json();
 
       this.tasksList = data;
@@ -167,26 +158,8 @@ export default {
   max-width: 800px;
   padding: 0.5rem 1rem;
   margin: 8px auto;
-  background-color: rgb(249, 248, 248);
+  background-color: rgb(245, 248, 255);
   border: 1px solid lightgray;
-}
-
-#header{
-  padding-bottom: 0.5rem;
-  display: flex;
-  
-}
-#title-area{
-  width: 50%;
-  font-size: 14px;
-  font-weight: 600;
-  display: flex;
-  align-items: flex-end;
-}
-#nav-area{
-  display: flex;
-  width: 50%;
-  justify-content: right;
 }
 #active-task-area{
   background-color: white;

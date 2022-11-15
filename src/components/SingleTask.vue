@@ -1,23 +1,24 @@
 <template>
     <div id="task" :class="task.done ? 'task-inactive' : 'task-active'">
-        <div id="info-area">
+        <div id="task-info">
             <label :class="task.done ? 'inactive' : 'active'" >
-                <input type="checkbox" @change="onCheck(task.id)" value="done" :checked="task.done" />{{task.content}}
+                <input type="checkbox" @change="onCheck(task.id)" value="done" :checked="task.done" />{{task.content}}<span id="task-details"
+                >{{task.author}} - {{task.dueDate}}</span>
             </label>
-            <p id="task-details">{{task.author}} - {{task.dueDate}}</p>
         </div>
-        <div id="mod-area">
 
-            <button class="mdc-button mdc-button--outlined" v-show="!task.done && editEnable === false" @click="editEnable = !editEnable">
+        <div id="task-nav">
+            <button class="mdc-button mdc-button--outlined mdc-button--icon-leading mod-btn"
+                v-show="!task.done && editEnable === false" @click="editEnable = !editEnable">
               <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__label">Edit</span>
+              <i class="material-icons mdc-button__icon" aria-hidden="true">edit</i>
             </button>
 
-            <button class="mdc-button mdc-button--outlined" id="delete-btn" v-show="task.done" @click="onDelete(task.id)">
+            <button class="mdc-button mdc-button--outlined mdc-button--icon-leading mod-btn"
+                v-show="task.done" @click="onDelete(task.id)">
               <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__label">Delete</span>
+              <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
             </button>
-
         </div>
         <EditTask v-if="editEnable" :oldTask="task" @close-edit-form="editEnable = !editEnable" @edit-task="editTask" />
     </div>
@@ -69,12 +70,14 @@ p{
     background-color: white;
     font-size: 14px;
     flex-wrap: wrap;
+    align-items: center;
 }
 .task-inactive{
     padding: 0.25rem 0.5rem;
     display: flex;
     font-size: 14px;
     flex-wrap: wrap;
+    align-items: center;
 }
 .active{
     color: rgb(63, 195, 248);
@@ -83,7 +86,7 @@ p{
     color: grey;
     text-decoration: line-through;
 }
-#info-area{
+#task-info{
     display: flex;
     width: 80%;
 }
@@ -91,16 +94,13 @@ p{
     margin-left: 1rem;
     color: gray;
 }
-#mod-area{
+#task-nav{
     display: flex;
     width: 20%;
     justify-content: flex-end;
 }
-#edit-btn{
-    background-color: gray;
-    box-shadow: none;
-}
-#delete-btn{
-    color: red;
+.mod-btn{
+    padding: 0 2px 0 11px;
+    min-width: 36px;
 }
 </style>
