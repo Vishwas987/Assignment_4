@@ -158,7 +158,7 @@ export default {
   max-width: 800px;
   padding: 0.5rem 1rem;
   margin: 8px auto;
-  background-color: rgb(245, 248, 255);
+  background-color: rgb(248, 248, 248);
   border: 1px solid lightgray;
 }
 #active-task-area{
