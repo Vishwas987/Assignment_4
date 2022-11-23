@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async addTask(task){
-      const res = await fetch("http://localhost:5000/tasks", {
+      const res = await fetch("http://127.0.0.1:5000/api/v1/tasks", {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -47,7 +47,6 @@ export default {
       const data = await res.json();
 
       this.tasksList = [...this.tasksList, data];
-      //console.log(data);
     },
 
     itTasks(status){
@@ -90,8 +89,8 @@ export default {
       const taskToUpdate = await this.fetchTask(id);
       const updatedTask = { ...taskToUpdate, done: !taskToUpdate.done };
 
-      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-        method: 'PUT',
+      const res = await fetch(`http://127.0.0.1:5000/api/v1/tasks/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-type': 'application/json',
         },
@@ -101,17 +100,17 @@ export default {
       const data = await res.json();
 
       this.tasksList = this.tasksList.map((task) =>
-        task.id === id ? { ...task, done: data.done } : task
+        task._id === id ? { ...task, done: data.task.done } : task
       );
     },
 
     async editTask(newTask){
-      let id = newTask.id;
+      let id = newTask._id;
       const taskToUpdate = await this.fetchTask(id);
       const updatedTask = { ...taskToUpdate, dueDate: newTask.dueDate, content: newTask.content };
 
-      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-        method: 'PUT',
+      const res = await fetch(`http://127.0.0.1:5000/api/v1/tasks/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-type': 'application/json',
         },
@@ -121,31 +120,35 @@ export default {
       const data = await res.json();
 
       this.tasksList = this.tasksList.map((task) =>
-        task.id === id ? { ...task, dueDate: data.dueDate, content: data.content } : task
+        task._id === id ? { ...task, dueDate: data.task.dueDate, content: data.task.content } : task
       );
     },
 
     async fetchTask(id){
-      const res = await fetch(`http://localhost:5000/tasks/${id}`);
+      const res = await fetch(`http://127.0.0.1:5000/api/v1/tasks/${id}`);
       const data = await res.json();
 
-      return data;
+      return data.task;
     },
 
     async deleteTask(id){
-      // const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-      //   method: 'DELETE'
-      // });
+      const res = await fetch(`http://127.0.0.1:5000/api/v1/tasks/${id}`, {
+        method: 'DELETE'
+      });
 
-      // res.status === 200 ? this.tasksList = this.tasksList.filter((task) => task.id !== id) : alert("Error deleting task");
-      this.tasksList = this.tasksList.filter((task) => task.id !== id);
+      res.status === 200 ? this.tasksList = this.tasksList.filter((task) => task._id !== id) : alert("Error deleting task");
+      this.tasksList = this.tasksList.filter((task) => task._id !== id);
     }
   },
   async created(){
-    const res = await fetch("http://localhost:5000/tasks");
-      const data = await res.json();
-
-      this.tasksList = data;
+    const res = await fetch("http://127.0.0.1:5000/api/v1/tasks", {
+      method: "GET", 
+      mode: 'cors', 
+      headers: { 'Content-Type': 'application/json',}
+    });
+    const data = await res.json();
+  
+    this.tasksList = data.tasks;
   }
 }
 </script>

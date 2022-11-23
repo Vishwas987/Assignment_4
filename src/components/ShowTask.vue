@@ -1,8 +1,8 @@
 <template>
     <div>
         <p id="module-title">{{title}}</p>
-        <SingleTask v-for="task in tasks" :key="task.id" :task="task" @checkbox-changed="$emit('checkbox-changed', task.id)" 
-        @delete-task="$emit('delete-task', task.id)" @edit-task="editTask" />
+        <SingleTask v-for="task in tasks" :key="task._id" :task="task" @checkbox-changed="$emit('checkbox-changed', task._id)" 
+        @delete-task="$emit('delete-task', task._id)" @edit-task="editTask" />
     </div>
 </template>
 
