@@ -2,7 +2,7 @@
     <div id="task" :class="task.done ? 'task-inactive' : 'task-active'">
         <div id="task-info">
             <label :class="task.done ? 'inactive' : 'active'" >
-                <input type="checkbox" @change="onCheck(task.id)" value="done" :checked="task.done" />{{task.content}}<span id="task-details"
+                <input type="checkbox" @change="onCheck(task._id)" value="done" :checked="task.done" />{{task.content}}<span id="task-details"
                 >{{task.author}} - {{task.dueDate}}</span>
             </label>
         </div>
@@ -15,7 +15,7 @@
             </button>
 
             <button class="mdc-button mdc-button--outlined mdc-button--icon-leading mod-btn"
-                v-show="task.done" @click="onDelete(task.id)">
+                v-show="task.done" @click="onDelete(task._id)">
               <span class="mdc-button__ripple"></span>
               <i class="material-icons mdc-button__icon" aria-hidden="true">delete</i>
             </button>

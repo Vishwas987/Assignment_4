@@ -45,7 +45,7 @@ export default{
             let tmp_task = {
                 content: this.task.content,
                 dueDate: this.task.dueDate,
-                id: this.oldTask.id
+                _id: this.oldTask._id
             };
 
             this.$emit('edit-task', tmp_task);

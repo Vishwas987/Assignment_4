@@ -83,6 +83,8 @@ form{
     flex-direction: column;
     width: 50%;
     margin: 0 auto;
+    padding: 0 1rem;
+    background-color: white;
 }
 
 .input-field{
