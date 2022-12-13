@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async addTask(task){
-      const res = await fetch("http://localhost:5000/tasks", {
+      const res = await fetch("https://icac8ujjr3.execute-api.ap-northeast-1.amazonaws.com/dev/api/tasks", {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -90,15 +90,16 @@ export default {
       const taskToUpdate = await this.fetchTask(id);
       const updatedTask = { ...taskToUpdate, done: !taskToUpdate.done };
 
-      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-        method: 'PUT',
+      const res = await fetch(`https://icac8ujjr3.execute-api.ap-northeast-1.amazonaws.com/dev/api/tasks/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(updatedTask),
       });
 
-      const data = await res.json();
+      let data = await res.json();
+      data = data.body.Attributes;
 
       this.tasksList = this.tasksList.map((task) =>
         task.id === id ? { ...task, done: data.done } : task
@@ -110,15 +111,16 @@ export default {
       const taskToUpdate = await this.fetchTask(id);
       const updatedTask = { ...taskToUpdate, dueDate: newTask.dueDate, content: newTask.content };
 
-      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
-        method: 'PUT',
+      const res = await fetch(`https://icac8ujjr3.execute-api.ap-northeast-1.amazonaws.com/dev/api/tasks/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(updatedTask),
       });
 
-      const data = await res.json();
+      let data = await res.json();
+      data = data.body.Attributes;
 
       this.tasksList = this.tasksList.map((task) =>
         task.id === id ? { ...task, dueDate: data.dueDate, content: data.content } : task
@@ -126,10 +128,10 @@ export default {
     },
 
     async fetchTask(id){
-      const res = await fetch(`http://localhost:5000/tasks/${id}`);
+      const res = await fetch(`https://icac8ujjr3.execute-api.ap-northeast-1.amazonaws.com/dev/api/tasks/${id}`);
       const data = await res.json();
 
-      return data;
+      return data.body.Item;
     },
 
     async deleteTask(id){
@@ -142,10 +144,10 @@ export default {
     }
   },
   async created(){
-    const res = await fetch("http://localhost:5000/tasks");
+    const res = await fetch("https://icac8ujjr3.execute-api.ap-northeast-1.amazonaws.com/dev/api/tasks");
       const data = await res.json();
 
-      this.tasksList = data;
+      this.tasksList = data.Items;
   }
 }
 </script>
